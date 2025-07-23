@@ -1,0 +1,24 @@
+# ClockWise
+
+ClockWise is a simple time and attendance tracker with a React frontend and
+Node.js/Express backend powered by MongoDB. It can be run locally using Docker
+compose.
+
+## Requirements
+- Docker and Docker Compose
+
+## Running locally
+
+```bash
+docker-compose up --build
+```
+
+The frontend will be available on `http://localhost:3000`, the backend API on
+`http://localhost:5000`, and MongoDB on `mongodb://localhost:27017`.
+
+## Project Structure
+```
+frontend/   # React + Tailwind application
+backend/    # Express API and Slack integration
+k8s/        # Kubernetes deployment manifests (placeholders)
+```
