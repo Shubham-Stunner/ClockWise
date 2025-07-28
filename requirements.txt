@@ -1,0 +1,4 @@
+# This project uses Node.js for both the backend and the frontend.
+# Install dependencies using npm in the respective folders:
+#   cd backend && npm install
+#   cd frontend && npm install
