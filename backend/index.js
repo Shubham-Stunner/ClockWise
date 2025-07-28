@@ -38,6 +38,16 @@ const attendanceSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 const AttendanceRecord = mongoose.model('AttendanceRecord', attendanceSchema);
 
+// Seed default user on first run
+mongoose.connection.once('open', async () => {
+  const existing = await User.findOne({ email: 'user@example.com' });
+  if (!existing) {
+    const hashed = await bcrypt.hash('password', 10);
+    await User.create({ name: 'Default User', email: 'user@example.com', password: hashed });
+    console.log('Seed user created: user@example.com / password');
+  }
+});
+
 // Helpers
 function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
@@ -53,7 +63,7 @@ function authMiddleware(req, res, next) {
 }
 
 // Routes
-app.post('/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user) return res.status(401).json({ error: 'User not found' });
@@ -63,7 +73,7 @@ app.post('/login', async (req, res) => {
   res.json({ token });
 });
 
-app.post('/punchin', authMiddleware, async (req, res) => {
+app.post('/api/punchin', authMiddleware, async (req, res) => {
   const today = new Date().toISOString().slice(0, 10);
   let record = await AttendanceRecord.findOne({ userId: req.user.id, date: today });
   if (!record) {
@@ -74,7 +84,7 @@ app.post('/punchin', authMiddleware, async (req, res) => {
   res.json(record);
 });
 
-app.post('/punchout', authMiddleware, async (req, res) => {
+app.post('/api/punchout', authMiddleware, async (req, res) => {
   const today = new Date().toISOString().slice(0, 10);
   let record = await AttendanceRecord.findOne({ userId: req.user.id, date: today });
   if (!record) return res.status(400).json({ error: 'No punch in found' });
@@ -90,7 +100,7 @@ app.post('/punchout', authMiddleware, async (req, res) => {
   res.json(record);
 });
 
-app.get('/summary', authMiddleware, async (req, res) => {
+app.get('/api/summary', authMiddleware, async (req, res) => {
   const today = new Date();
   const startOfWeek = new Date(today);
   startOfWeek.setDate(today.getDate() - today.getDay());

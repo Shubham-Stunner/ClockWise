@@ -16,6 +16,14 @@ docker-compose up --build
 The frontend will be available on `http://localhost:3000`, the backend API on
 `http://localhost:5000`, and MongoDB on `mongodb://localhost:27017`.
 
+The backend seeds a default user on first run:
+
+- **Email:** `user@example.com`
+- **Password:** `password`
+
+Copy `backend/.env.example` to `backend/.env` to configure your own values for
+the development environment if needed.
+
 ## Project Structure
 ```
 frontend/   # React + Tailwind application
