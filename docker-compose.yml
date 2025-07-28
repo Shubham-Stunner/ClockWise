@@ -12,13 +12,14 @@ services:
       - "5000:5000"
     environment:
       - MONGO_URI=mongodb://mongo:27017/clockwisedb
+      - JWT_SECRET=supersecret
       - SLACK_WEBHOOK=
     depends_on:
       - mongo
   frontend:
     build: ./frontend
     ports:
-      - "3000:3000"
+      - "3000:80"
     depends_on:
       - backend
 volumes:
