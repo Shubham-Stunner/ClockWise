@@ -5,7 +5,13 @@ Node.js/Express backend powered by MongoDB. It can be run locally using Docker
 compose.
 
 ## Requirements
-- Docker and Docker Compose
+Before running the containers you only need **Docker** with the
+**Docker Compose** plugin installed.  If you would like to run the
+frontend or backend directly on your host for development, install the
+following as well:
+
+- **Node.js** (v18 or newer) and **npm**
+- **MongoDB** (if not using the provided Docker service)
 
 ## Running locally
 
